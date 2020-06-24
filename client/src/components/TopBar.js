@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { ExitToApp } from "@material-ui/icons";
 
@@ -18,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TopBar(Props, {}) {
+export default function TopBar(Props) {
   const { selectedRoom, currentUser, logout } = Props;
   const classes = useStyles();
   let HeaderName;

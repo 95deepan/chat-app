@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { Container, TextField, Chip } from "@material-ui/core";
+import { TextField, Chip } from "@material-ui/core";
 import { ChatBubble } from "@material-ui/icons";
-import { FixedSizeList } from "react-window";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Autosizer from "react-virtualized-auto-sizer";
-import { getMessages, sendMessage, subscribeToMessages } from "../api";
+import { getMessages, sendMessage } from "../api";
 
 var chatInterval;
 
@@ -45,7 +42,7 @@ class ChatWindow extends Component {
     }
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = (prevProps) => {
     const { selectedRoom: oldRoom } = prevProps;
     const { selectedRoom: newRoom } = this.props;
 
@@ -112,7 +109,7 @@ class ChatWindow extends Component {
             }}
           >
             <div style={{ height: 70 }} />
-            {messages.map((msg, msgId) => (
+            {messages.map((msg) => (
               <ChatItem
                 isMyMessage={loggedInuser._id === msg.sender}
                 text={msg.message}

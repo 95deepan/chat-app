@@ -5,7 +5,6 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Divider,
   withStyles,
 } from "@material-ui/core";
 import { getMyRooms } from "../api";

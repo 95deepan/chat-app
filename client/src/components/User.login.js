@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Menu, MenuItem, Typography } from "@material-ui/core";
+import { Menu, MenuItem, Typography } from "@material-ui/core";
 import { getUsers } from "../api";
 
 const ITEM_HEIGHT = 48;
@@ -36,7 +36,6 @@ class UserLogin extends Component {
   };
 
   render() {
-    const { selectUser, selectedUser } = this.props;
     const { allUsers, anchorEl } = this.state;
 
     return (
@@ -46,9 +45,6 @@ class UserLogin extends Component {
           height: "70vh",
           width: "100%",
           alignContent: "center",
-          //   alignItems: "center",
-          //   justifyContent: "center",
-          //   alignSelf: "center",
         }}
       >
         <Typography
