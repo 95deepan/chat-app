@@ -60,7 +60,7 @@ class ChatWindow extends Component {
     const { loggedInuser, selectedRoom } = this.props;
     let localMessages = Object.assign([], messages);
     localMessages.push({
-      sender: "Deepan",
+      sender: loggedInuser._id,
       message,
     });
     sendMessage({
@@ -72,7 +72,7 @@ class ChatWindow extends Component {
   };
 
   render() {
-    const { selectedRoom } = this.props;
+    const { selectedRoom, loggedInuser } = this.props;
     const { message, messages } = this.state;
     return (
       <div
@@ -94,7 +94,7 @@ class ChatWindow extends Component {
             <div style={{ height: 70 }} />
             {messages.map((msg, msgId) => (
               <ChatItem
-                isMyMessage={msg.sender !== selectedRoom?.userOne?.name}
+                isMyMessage={loggedInuser._id === msg.sender}
                 text={msg.message}
               />
             ))}
