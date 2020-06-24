@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TopBar(Props, {}) {
-  const { selectedRoom } = Props;
+  const { selectedRoom, currentUser, logout } = Props;
   const classes = useStyles();
   return (
     <AppBar position="fixed">
@@ -30,9 +30,12 @@ export default function TopBar(Props, {}) {
         <Typography variant="h6" className={classes.userName} align={"center"}>
           {selectedRoom?.name}
         </Typography>
-        <IconButton edge={"end"}>
-          <ExitToApp color={"secondary"} />
-        </IconButton>
+
+        {currentUser ? (
+          <IconButton onClick={logout} edge={"end"}>
+            <ExitToApp color={"secondary"} />
+          </IconButton>
+        ) : null}
       </Toolbar>
     </AppBar>
   );

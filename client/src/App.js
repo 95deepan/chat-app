@@ -5,6 +5,7 @@ import { getUsers } from "./api";
 import TopBar from "./components/TopBar";
 import ChatFavourites from "./components/ChatFavourites";
 import ChatWindow from "./components/ChatWindow";
+import UserLogin from "./components/User.login";
 
 const useStyles = (theme) => ({
   root: {
@@ -28,55 +29,50 @@ class App extends Component {
 
     this.state = {
       selectedRoom: null,
+      loggedInuser: null,
+      allUsers: [],
     };
   }
-
-  componentDidMount = () => {
-    getUsers()
-      .then((res) => {
-        if (res.status === 200) {
-          // this.setState({ res.data ? res.data.data : []});
-        } else {
-          console.log(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log("err is ", err);
-      });
-  };
 
   selectRoom = (roomObj) => {
     this.setState({ selectedRoom: roomObj });
   };
 
+  userLogin = (user) => {
+    this.setState({ loggedInuser: user });
+  };
+
   render() {
-    const { classes, currentUser, users } = this.props;
-    const { selectedRoom } = this.state;
+    const { classes } = this.props;
+    const { selectedRoom, loggedInuser } = this.state;
     return (
       <Grid container className={classes.root} spacing={2}>
         <TopBar
-          currentUser={currentUser}
-          users={users}
-          selectedRoom={selectedRoom}
+          logout={() => this.setState({ loggedInuser: null })}
+          currentUser={loggedInuser}
         />
-        <Grid item xs={12}>
-          <Grid container justify="center" spacing={0}>
-            <Grid item xs={3} sm={3} md={3} lg={3}>
-              <div style={{ height: 60 }} />
-              <ChatFavourites
-                selectedRoom={selectedRoom}
-                rooms={[
-                  { name: "Deepan", lastMessage: "Hello", _id: 1 },
-                  { name: "Arun", lastMessage: "How are you?", _id: 2 },
-                ]}
-                selectRoom={this.selectRoom}
-              />
-            </Grid>
-            <Grid item xs={9} sm={9} md={9} lg={9}>
-              <ChatWindow selectedRoom={selectedRoom} />
+        {loggedInuser ? (
+          <Grid item xs={12}>
+            <Grid container justify="center" spacing={0}>
+              <Grid item xs={3} sm={3} md={3} lg={3}>
+                <div style={{ height: 60 }} />
+                <ChatFavourites
+                  selectedRoom={selectedRoom}
+                  rooms={[
+                    { name: "Deepan", lastMessage: "Hello", _id: 1 },
+                    { name: "Arun", lastMessage: "How are you?", _id: 2 },
+                  ]}
+                  selectRoom={this.selectRoom}
+                />
+              </Grid>
+              <Grid item xs={9} sm={9} md={9} lg={9}>
+                <ChatWindow selectedRoom={selectedRoom} />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          <UserLogin selectUser={this.userLogin} selectedUser={loggedInuser} />
+        )}
       </Grid>
     );
   }

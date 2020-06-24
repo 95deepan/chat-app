@@ -81,7 +81,7 @@ module.exports.sendMessage = (req, res) => {
 
 module.exports.getMessages = (req, res) => {
   try {
-    //
+    // By Long polling
   } catch (error) {
     res.status(500).json(failedRes(500, "Internal server error " + error));
   }
