@@ -19,8 +19,11 @@ module.exports.getUsers = (req, res) => {
           error: err,
         });
       });
-  } catch (error) {
-    res.status(500).json(failedRes(500, "Internal server error " + error));
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -37,8 +40,11 @@ module.exports.createRoom = (req, res) => {
         data: saved.populate(["userOne", "userTwo"]),
       });
     });
-  } catch (error) {
-    res.status(500).json(failedRes(500, "Internal server error " + error));
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -59,8 +65,11 @@ module.exports.getRooms = (req, res) => {
           error: err,
         });
       });
-  } catch (error) {
-    res.status(500).json(failedRes(500, "Internal server error " + error));
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
@@ -86,15 +95,35 @@ module.exports.sendMessage = (req, res) => {
         error: "roomId, message, sender are required",
       });
     }
-  } catch (error) {
-    res.status(500).json(failedRes(500, "Internal server error " + error));
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };
 
 module.exports.getMessages = (req, res) => {
   try {
-    // By Long polling
-  } catch (error) {
-    res.status(500).json(failedRes(500, "Internal server error " + error));
+    const { roomId } = req.params;
+    Message.find({ roomId })
+      .then((msgs) => {
+        res.status(200).json({
+          success: true,
+          data: msgs,
+          message: "Messages fetched",
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          error: err,
+        });
+      });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err,
+    });
   }
 };

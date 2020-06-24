@@ -6,7 +6,7 @@ router.get("/get/rooms/:userId", Controller.getRooms);
 
 router.post("/send/message", Controller.sendMessage);
 
-router.get("/get/messages/:room", Controller.getMessages);
+router.get("/get/messages/:roomId", Controller.getMessages);
 
 router.get("/get/users", Controller.getUsers);
 

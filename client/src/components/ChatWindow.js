@@ -5,6 +5,7 @@ import { FixedSizeList } from "react-window";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Autosizer from "react-virtualized-auto-sizer";
+import { getMessages, sendMessage } from "../api";
 
 const useStyles = (theme) => ({
   virtualSection: {
@@ -32,30 +33,22 @@ class ChatWindow extends Component {
 
     this.state = {
       message: "",
-      messages: [
-        {
-          sender: "Deepan",
-          message: "Hello how are you",
-        },
-        {
-          sender: "Arun",
-          message: "I am good",
-        },
-        {
-          sender: "Arun",
-          message: "how about you?",
-        },
-        {
-          sender: "Deepan",
-          message: "Yeah all fine",
-        },
-        {
-          sender: "Deepan",
-          message: "Whatsup buddy!",
-        },
-      ],
+      messages: [],
     };
   }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const { selectedRoom: oldRoom } = prevProps;
+    const { selectedRoom: newRoom } = this.props;
+
+    if (oldRoom !== newRoom) {
+      getMessages(newRoom._id).then((res) => {
+        if (res.status === 200) {
+          this.setState({ messages: res.data.data });
+        }
+      });
+    }
+  };
 
   onMessageChange = (evt) => {
     this.setState({ message: evt.target.value });
@@ -64,11 +57,17 @@ class ChatWindow extends Component {
   onSubmitHandler = (evt) => {
     evt.preventDefault();
     const { messages, message } = this.state;
+    const { loggedInuser, selectedRoom } = this.props;
     let localMessages = Object.assign([], messages);
     localMessages.push({
       sender: "Deepan",
       message,
     });
+    sendMessage({
+      sender: loggedInuser._id,
+      message,
+      roomId: selectedRoom._id,
+    }).then(() => {});
     this.setState({ messages: localMessages, message: "" });
   };
 

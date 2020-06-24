@@ -63,7 +63,10 @@ class App extends Component {
                 />
               </Grid>
               <Grid item xs={9} sm={9} md={9} lg={9}>
-                <ChatWindow selectedRoom={selectedRoom} />
+                <ChatWindow
+                  loggedInuser={loggedInuser}
+                  selectedRoom={selectedRoom}
+                />
               </Grid>
             </Grid>
           </Grid>
