@@ -8,6 +8,10 @@ export const getUsers = async () => {
   return await instance.get("/get/users");
 };
 
+export const getMyRooms = async (userId) => {
+  return await instance.get("/get/rooms/" + userId);
+};
+
 export const getMessages = async () => {
   let response = await instance.get("/get/messages");
 

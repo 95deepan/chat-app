@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   List,
-  ListSubheader,
   ListItem,
   ListItemAvatar,
   Avatar,
@@ -9,6 +8,7 @@ import {
   Divider,
   withStyles,
 } from "@material-ui/core";
+import { getMyRooms } from "../api";
 
 export const useStyles = (theme) => ({
   root: {
@@ -30,8 +30,38 @@ export const useStyles = (theme) => ({
 });
 
 class ChatFavourites extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      rooms: [],
+    };
+  }
+
+  componentDidMount = () => {
+    const { loggedInuser } = this.props;
+    getMyRooms(loggedInuser._id)
+      .then((res) => {
+        console.log("rooms are ", res.data);
+        if (res.status === 200) {
+          this.setState({ rooms: res.data ? res.data.data : [] });
+        } else {
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log("Err is", err);
+      });
+  };
+
+  selectRoom = (roomObj) => {
+    this.setState({ selectedRoom: roomObj });
+  };
+
   render() {
-    const { classes, rooms, selectedRoom, selectRoom } = this.props;
+    const { classes, selectedRoom, selectRoom, loggedInuser } = this.props;
+    const { rooms } = this.state;
+
     return (
       <List className={classes.list}>
         {rooms.map((room, roomId) => (
@@ -42,9 +72,9 @@ class ChatFavourites extends Component {
               button
             >
               <ListItemAvatar>
-                <Avatar>{room.name[0]}</Avatar>
+                <Avatar>{room.userTwo.name[0]}</Avatar>
               </ListItemAvatar>
-              <ListItemText primary={room.name} secondary={room.lastMessage} />
+              <ListItemText primary={room.userTwo.name} secondary={"Hello"} />
             </ListItem>
           </React.Fragment>
         ))}

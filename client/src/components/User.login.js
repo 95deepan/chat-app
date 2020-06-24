@@ -59,35 +59,37 @@ class UserLogin extends Component {
         >
           Login as
         </Typography>
-        <Menu
-          id="long-menu"
-          anchorEl={anchorEl}
-          open={true}
-          onClose={this.handleClose}
-          PaperProps={{
-            style: {
-              display: "flex",
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: "20ch",
-              alignSelf: "center",
-              marginLeft: "40%",
-              justifySelf: "center",
-            },
-          }}
-        >
-          {allUsers.map((user) => (
-            <MenuItem
-              key={user._id}
-              selected={false}
-              onClick={() => {
-                this.props.selectUser(user);
-                this.handleClose();
-              }}
-            >
-              {user.name}
-            </MenuItem>
-          ))}
-        </Menu>
+        {allUsers.length && (
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={true}
+            onClose={this.handleClose}
+            PaperProps={{
+              style: {
+                display: "flex",
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: "20ch",
+                alignSelf: "center",
+                marginLeft: "40%",
+                justifySelf: "center",
+              },
+            }}
+          >
+            {allUsers.map((user) => (
+              <MenuItem
+                key={user._id}
+                selected={false}
+                onClick={() => {
+                  this.props.selectUser(user);
+                  this.handleClose();
+                }}
+              >
+                {user.name}
+              </MenuItem>
+            ))}
+          </Menu>
+        )}
       </div>
     );
   }

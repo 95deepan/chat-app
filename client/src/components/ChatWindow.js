@@ -95,7 +95,7 @@ class ChatWindow extends Component {
             <div style={{ height: 70 }} />
             {messages.map((msg, msgId) => (
               <ChatItem
-                isMyMessage={msg.sender !== selectedRoom?.name}
+                isMyMessage={msg.sender !== selectedRoom?.userOne?.name}
                 text={msg.message}
               />
             ))}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import { getUsers } from "./api";
 import TopBar from "./components/TopBar";
 import ChatFavourites from "./components/ChatFavourites";
 import ChatWindow from "./components/ChatWindow";
@@ -44,7 +43,8 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { selectedRoom, loggedInuser } = this.state;
+    const { selectedRoom, loggedInuser, otherUsers } = this.state;
+
     return (
       <Grid container className={classes.root} spacing={2}>
         <TopBar
@@ -57,11 +57,8 @@ class App extends Component {
               <Grid item xs={3} sm={3} md={3} lg={3}>
                 <div style={{ height: 60 }} />
                 <ChatFavourites
+                  loggedInuser={loggedInuser}
                   selectedRoom={selectedRoom}
-                  rooms={[
-                    { name: "Deepan", lastMessage: "Hello", _id: 1 },
-                    { name: "Arun", lastMessage: "How are you?", _id: 2 },
-                  ]}
                   selectRoom={this.selectRoom}
                 />
               </Grid>

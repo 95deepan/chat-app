@@ -26,7 +26,17 @@ module.exports.getUsers = (req, res) => {
 
 module.exports.createRoom = (req, res) => {
   try {
-    const {} = req.body;
+    const { userOne, userTwo } = req.body;
+    let newRoom = new Room({
+      userOne,
+      userTwo,
+    });
+    newRoom.save().then((saved) => {
+      res.status(200).json({
+        success: true,
+        data: saved.populate(["userOne", "userTwo"]),
+      });
+    });
   } catch (error) {
     res.status(500).json(failedRes(500, "Internal server error " + error));
   }
@@ -34,7 +44,9 @@ module.exports.createRoom = (req, res) => {
 
 module.exports.getRooms = (req, res) => {
   try {
-    Room.find({})
+    const { userId } = req.params;
+    Room.find({ $or: [{ userOne: userId }, { userTwo: userId }] })
+      .populate(["userOne", "userTwo"])
       .then((rooms) => {
         res.status(200).json({
           success: true,
