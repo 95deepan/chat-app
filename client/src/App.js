@@ -50,6 +50,7 @@ class App extends Component {
         <TopBar
           logout={() => this.setState({ loggedInuser: null })}
           currentUser={loggedInuser}
+          selectedRoom={selectedRoom}
         />
         {loggedInuser ? (
           <Grid item xs={12}>

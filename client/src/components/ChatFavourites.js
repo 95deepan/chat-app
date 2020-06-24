@@ -64,20 +64,31 @@ class ChatFavourites extends Component {
 
     return (
       <List className={classes.list}>
-        {rooms.map((room, roomId) => (
-          <React.Fragment key={roomId}>
-            <ListItem
-              onClick={() => selectRoom(room)}
-              selected={room._id === selectedRoom?._id}
-              button
-            >
-              <ListItemAvatar>
-                <Avatar>{room.userTwo.name[0]}</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={room.userTwo.name} secondary={"Hello"} />
-            </ListItem>
-          </React.Fragment>
-        ))}
+        {rooms.map((room, roomId) => {
+          let HeaderName;
+
+          if (loggedInuser && room) {
+            HeaderName =
+              room.userOne.name === loggedInuser.name
+                ? room.userTwo.name
+                : room.userOne.name;
+          }
+
+          return (
+            <React.Fragment key={roomId}>
+              <ListItem
+                onClick={() => selectRoom(room)}
+                selected={room._id === selectedRoom?._id}
+                button
+              >
+                <ListItemAvatar>
+                  <Avatar>{HeaderName ? HeaderName[0] : ""}</Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={HeaderName} secondary={"Hello"} />
+              </ListItem>
+            </React.Fragment>
+          );
+        })}
       </List>
     );
   }

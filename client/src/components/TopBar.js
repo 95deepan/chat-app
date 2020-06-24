@@ -21,14 +21,21 @@ const useStyles = makeStyles((theme) => ({
 export default function TopBar(Props, {}) {
   const { selectedRoom, currentUser, logout } = Props;
   const classes = useStyles();
+  let HeaderName;
+  if (currentUser && selectedRoom) {
+    HeaderName =
+      selectedRoom.userOne.name === currentUser.name
+        ? selectedRoom.userTwo.name
+        : selectedRoom.userOne.name;
+  }
   return (
     <AppBar position="fixed">
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          Chat App
+          {currentUser ? `Chat App (${currentUser.name})` : "Chat App"}
         </Typography>
         <Typography variant="h6" className={classes.userName} align={"center"}>
-          {selectedRoom?.name}
+          {HeaderName}
         </Typography>
 
         {currentUser ? (
