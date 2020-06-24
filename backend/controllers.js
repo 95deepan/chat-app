@@ -103,6 +103,17 @@ module.exports.sendMessage = (req, res) => {
   }
 };
 
+module.exports.subScribeMessages = (req, res) => {
+  try {
+    //
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error,
+    });
+  }
+};
+
 module.exports.getMessages = (req, res) => {
   try {
     const { roomId } = req.params;

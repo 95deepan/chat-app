@@ -5,7 +5,9 @@ import { FixedSizeList } from "react-window";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Autosizer from "react-virtualized-auto-sizer";
-import { getMessages, sendMessage } from "../api";
+import { getMessages, sendMessage, subscribeToMessages } from "../api";
+
+var chatInterval;
 
 const useStyles = (theme) => ({
   virtualSection: {
@@ -37,16 +39,34 @@ class ChatWindow extends Component {
     };
   }
 
+  componentWillUnmount = () => {
+    if (chatInterval) {
+      clearInterval(chatInterval);
+    }
+  };
+
   componentDidUpdate = (prevProps, prevState) => {
     const { selectedRoom: oldRoom } = prevProps;
     const { selectedRoom: newRoom } = this.props;
 
     if (oldRoom !== newRoom) {
-      getMessages(newRoom._id).then((res) => {
-        if (res.status === 200) {
-          this.setState({ messages: res.data.data });
-        }
-      });
+      if (chatInterval) {
+        clearInterval(chatInterval);
+      }
+      chatInterval = setInterval(() => {
+        getMessages(newRoom._id).then((res) => {
+          if (res.status === 200) {
+            this.setState({ messages: res.data.data });
+            // subscribeToMessages(newRoom._id).then((newmessages) => {
+            //   if (newmessages.data) {
+            //     this.setState({
+            //       messages: [...this.state.messages, ...newmessages.data.data],
+            //     });
+            //   }
+            // });
+          }
+        });
+      }, 2000);
     }
   };
 

@@ -8,6 +8,8 @@ router.post("/send/message", Controller.sendMessage);
 
 router.get("/get/messages/:roomId", Controller.getMessages);
 
+router.get("/subscribe/messages/:roomId", Controller.subScribeMessages);
+
 router.get("/get/users", Controller.getUsers);
 
 router.post("/add/room", Controller.createRoom);

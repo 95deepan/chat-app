@@ -43,7 +43,7 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { selectedRoom, loggedInuser, otherUsers } = this.state;
+    const { selectedRoom, loggedInuser } = this.state;
 
     return (
       <Grid container className={classes.root} spacing={2}>
