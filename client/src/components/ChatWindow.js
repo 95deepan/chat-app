@@ -80,12 +80,12 @@ class ChatWindow extends Component {
       sender: loggedInuser._id,
       message,
     });
+    this.setState({ messages: localMessages, message: "" });
     sendMessage({
       sender: loggedInuser._id,
       message,
       roomId: selectedRoom._id,
     }).then(() => {});
-    this.setState({ messages: localMessages, message: "" });
   };
 
   render() {
@@ -104,7 +104,7 @@ class ChatWindow extends Component {
           <div
             style={{
               display: "flex",
-              height: "100vh",
+              // height: "100vh",
               flexDirection: "column",
             }}
           >
